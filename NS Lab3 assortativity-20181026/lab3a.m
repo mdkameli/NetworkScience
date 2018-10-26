@@ -40,25 +40,27 @@ Nu = size(Au,1);
 % degree
 d = full(sum(A,2)); % degree
 k = unique(d); % degree samples
-%Mdl = fitcknn(A,d');
-%Idx = knnsearch(A,d');
 
-Knn = (A*d)./d;               %it is sum of neighbouring degree
+% Sum of neighbouring degree
+Knn = (A*d)./d;              
 
-% for i = 1:max(k)
-%     idx = find(k==i);
-%     x = Knn(idx);
-%     Knn_Ave(i) = mean(x);
-% end
-% Knn_Ave = Knn_Ave(Knn_Ave >0);
+% Finding the average of each column
+for i = 1:max(d)
+    idx = find(d==i);
+    Knn_Ave(i) = mean(Knn(idx));
+end
+Knn_Ave = Knn_Ave(Knn_Ave >0);
 
-p = polyfit(log(Knn),log(d),1);
+%p = polyfit(log(Knn),log(d),1);
+p2 = polyfit(log(k),log(Knn_Ave)',1);
 
-y = p(2)*log(k) + p(1);
-loglog(d,Knn,'.',k,exp(y))
+% Liniear Fiting of Average Knn w.r.t K
+%y = p(2)*log(k) + p(1);
+y2 = p2(1)*log(k)+ p2(2);
+
+% Showing Results
+loglog(d,Knn,'.',k,Knn_Ave,'.',k,exp(y2))
 grid
 xlabel('k')
 ylabel('Knn')
 title('Assortivity of the collaboration Network')
-
-
