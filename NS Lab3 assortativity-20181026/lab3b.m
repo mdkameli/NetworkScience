@@ -27,12 +27,14 @@ e1 = [1;zeros(N-1,1)];
 exit = false;
 while(~exit)
     e1_old = e1;
-    e1 = 1*(Au*e1>0);
+    e1 = 1*(Au*e1+e1>0);
     exit = (sum(e1-e1_old)==0);
 end
 pos = find(e1);
 A = A(pos,pos);
 N = size(A,1);
 
+d = full(sum(A,2);
+k = unique(d);
 % ... continue
 
