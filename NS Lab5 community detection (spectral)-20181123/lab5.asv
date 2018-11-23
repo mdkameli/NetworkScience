@@ -107,12 +107,12 @@ ordered_Au = Au(ei_order,ei_order);
 
 %% Sweep Across the nodes
 di = ordered_Au*ones(N,1);
-Di = sum(di);
+Di = diag(di);
 Association = cumsum(di);
-ai = sum(triu(ordered_Au),1);
-bi = sum(triu(ordered_Au),2);
-Cut = cumsum(bi' - ai);
-Conductance = Cut'./min(Association,Di-Association);
+ai = sum(triu(full(ordered_Au)),2);
+bi = sum(triu(full(ordered_Au)),1);
+Cut = cumsum(bi - ai');
+Conductance = Cut/min(Association,Di-Association);
 
 %% Plot the result
 figure (3);
